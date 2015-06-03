@@ -47,7 +47,7 @@ cliopen(char *host, char *port)
 		if ( (hp = gethostbyname(host)) == NULL)
 			err_quit("gethostbyname() error for: %s", host);
 
-		bcopy(hp->h_addr, (char *) &serv_addr.sin_addr, hp->h_length);
+		bcopy(hp->h_addr_list[0], (char *) &serv_addr.sin_addr, hp->h_length);
 	}
 
 	if ( (fd = socket(AF_INET, udp ? SOCK_DGRAM : SOCK_STREAM, 0)) < 0)

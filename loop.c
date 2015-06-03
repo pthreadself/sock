@@ -15,6 +15,7 @@
 void	tty_atexit(void);	/* in library */
 void	sig_catch(int);		/* my function */
 
+
 void
 loop(int sockfd)
 {
