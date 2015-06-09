@@ -58,6 +58,7 @@ extern int		sourcesink;
 extern int		udp;
 extern int		urgwrite;
 extern int		verbose;
+extern int      dontfragment;
 
 #ifndef	INADDR_NONE
 #define	INADDR_NONE	0xffffffff	/* should be in <netinet/in.h> */

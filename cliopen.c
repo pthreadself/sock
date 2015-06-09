@@ -12,7 +12,7 @@
 int
 cliopen(char *host, char *port)
 {
-	int					fd, i, on;
+	int					fd, i, on, val;
 	char				*protocol;
 	unsigned long		inaddr;
 	struct sockaddr_in	cli_addr, serv_addr;
@@ -58,6 +58,14 @@ cliopen(char *host, char *port)
 		if (setsockopt(fd, SOL_SOCKET, SO_REUSEADDR,
 										(char *) &on, sizeof (on)) < 0)
 			err_sys("setsockopt of SO_REUSEADDR error");
+	}
+
+	if (dontfragment) {
+		val = IP_PMTUDISC_DO;
+		if (setsockopt(fd, SOL_IP, IP_MTU_DISCOVER,
+										(char *) &val, sizeof (val)) < 0)
+			err_sys("setsockopt of IP_MTU_DISCOVER error");
+
 	}
 
 	/*

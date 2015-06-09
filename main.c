@@ -45,8 +45,10 @@ int		sourcesink;			/* source/sink mode */
 int		udp;				/* use UDP instead of TCP */
 int		urgwrite;			/* write urgent byte after this write */
 int		verbose;
+int     dontfragment = 0;   /* set `don't fragment` flag in IP */
 
 static void	usage(const char *);
+void parse_control_opt(char opt);
 
 int
 main(int argc, char *argv[])
@@ -58,7 +60,7 @@ main(int argc, char *argv[])
 		usage("");
 
 	opterr = 0;		/* don't want getopt() writing to stderr */
-	while ( (c = getopt(argc, argv, "b:cf:hin:p:q:r:suvw:ABCDEFKL:NO:P:Q:R:S:U:")) != EOF) {
+	while ( (c = getopt(argc, argv, "b:cf:hin:o:p:q:r:suvw:ABCDEFKL:NO:P:Q:R:S:U:")) != EOF) {
 		switch (c) {
 		case 'b':
 			bindport = atoi(optarg);
@@ -88,6 +90,10 @@ main(int argc, char *argv[])
 		case 'n':			/* number of buffers to write */
 			nbuf = atol(optarg);
 			break;
+			
+	    case 'o':
+	        parse_control_opt(*optarg);
+	        break;
 
 		case 'p':			/* pause before each read or write */
 			pauserw = atoi(optarg);
@@ -247,6 +253,8 @@ usage(const char *msg)
 "         -q n  size of listen queue for TCP server (default 5)\n"
 "         -r n  #bytes per read() for \"sink\" server (default 1024)\n"
 "         -s    operate as server instead of client\n"
+"         -o x  where x may be following characters:\n"
+"               if x is 'd', set `dont fragement` flag in IP\n"
 "         -u    use UDP instead of TCP\n"
 "         -v    verbose\n"
 "         -w n  #bytes per write() for \"source\" client (default 1024)\n"
@@ -271,3 +279,20 @@ usage(const char *msg)
 		err_quit("%s", msg);
 	exit(1);
 }
+
+void parse_control_opt(char opt)
+{
+    switch(opt) {
+    
+    case 'd':
+        dontfragment = 1;
+        break;
+
+    default:
+        
+        break;
+    }
+
+    return;
+}
+
