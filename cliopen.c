@@ -7,12 +7,27 @@
  * It is provided "as is" without express or implied warranty.
  */
 
+
+/* Copyright (c) 2015 Wang Ke.
+ * pthreadself@gmail.com
+ * http://github.com/pthreadself
+ * All rights reserved.
+ * Permission to use or modify this software and its documentation only for
+ * educational purposes and without fee is hereby granted, provided that
+ * the above copyright notice appear in all copies.  The author makes no
+ * representations about the suitability of this software for any purpose.
+ * It is provided "as is" without express or implied warranty.
+ */
+ 
 #include	"sock.h"
+
+#define IP_MTU 14  /* funny that IP_MTU can only be found in <linux/in.h>,
+                      which we can not include */
 
 int
 cliopen(char *host, char *port)
 {
-	int					fd, i, on, val;
+	int					fd, i, on, val, vallen;
 	char				*protocol;
 	unsigned long		inaddr;
 	struct sockaddr_in	cli_addr, serv_addr;
@@ -62,7 +77,7 @@ cliopen(char *host, char *port)
 
 	if (dontfragment) {
 		val = IP_PMTUDISC_DO;
-		if (setsockopt(fd, SOL_IP, IP_MTU_DISCOVER,
+		if (setsockopt(fd, IPPROTO_IP, IP_MTU_DISCOVER,
 										(char *) &val, sizeof (val)) < 0)
 			err_sys("setsockopt of IP_MTU_DISCOVER error");
 
@@ -113,6 +128,9 @@ cliopen(char *host, char *port)
 					INET_NTOA(cli_addr.sin_addr), ntohs(cli_addr.sin_port));
 		fprintf(stderr, "to %s.%d\n",
 					INET_NTOA(serv_addr.sin_addr), ntohs(serv_addr.sin_port));
+		if (getsockopt(fd, IPPROTO_IP, IP_MTU, &val, (socklen_t*)&vallen) < 0)
+		    err_sys("getsockname() error");
+		fprintf(stderr, "current path MTU is %d\n", val);
 	}
 
 	sockopts(fd, 1);	/* some options get set after connect() */

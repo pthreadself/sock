@@ -6,6 +6,17 @@
  * representations about the suitability of this software for any purpose.
  * It is provided "as is" without express or implied warranty.
  */
+ 
+ /* Copyright (c) 2015 Wang Ke.
+ * pthreadself@gmail.com
+ * http://github.com/pthreadself
+ * All rights reserved.
+ * Permission to use or modify this software and its documentation only for
+ * educational purposes and without fee is hereby granted, provided that
+ * the above copyright notice appear in all copies.  The author makes no
+ * representations about the suitability of this software for any purpose.
+ * It is provided "as is" without express or implied warranty.
+ */
 
 #include	"sock.h"
 

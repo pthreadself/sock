@@ -7,8 +7,10 @@
  * It is provided "as is" without express or implied warranty.
  */
 
-#include	<sys/types.h>
-#include	<sys/socket.h>
+#include    <sys/types.h>
+#include    <sys/socket.h>
+#include    <netinet/in.h>
+#include    <netinet/ip.h> 
 #include	<sys/uio.h>
 #include	<sys/time.h>		/* struct timeval for select() */
 #ifdef	_AIX
